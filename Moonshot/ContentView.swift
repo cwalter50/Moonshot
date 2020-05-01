@@ -11,6 +11,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var isShowingCrew = false
+    
     let astronauts: [Astronaut] = Bundle.main.decode("astronauts.json")
     let missions: [Mission] = Bundle.main.decode("missions.json")
     
@@ -26,11 +28,16 @@ struct ContentView: View {
                    VStack(alignment: .leading) {
                        Text(mission.displayName)
                            .font(.headline)
-                       Text(mission.formattedLaunchDate)
+                    Text(self.isShowingCrew ? mission.formattedCrewMembersString : mission.formattedLaunchDate)
+
                    }
                }
            }
            .navigationBarTitle("Moonshot")
+           .navigationBarItems(leading: Button(isShowingCrew ? "Crew Members" : "Dates") {
+                self.isShowingCrew.toggle()
+           })
+           
        }
     }
 }

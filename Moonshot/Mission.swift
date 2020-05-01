@@ -28,6 +28,20 @@ struct Mission: Codable, Identifiable {
         }
     }
     
+    var formattedCrewMembersString: String {
+        let astronauts: [Astronaut] = Bundle.main.decode("astronauts.json")
+        var result = "Crew: "
+        for member in crew
+        {
+            if let matchingAstronaut = astronauts.first(where: { $0.id == member.name }) {
+                result += matchingAstronaut.name + ", "
+            } else {
+                fatalError("Missing \(member)")
+            }
+        }
+        return result
+    }
+    
     var displayName: String {
         "Apollo \(id)"
     }
@@ -35,4 +49,9 @@ struct Mission: Codable, Identifiable {
     var image: String {
         "apollo\(id)"
     }
+    
+    
+
+    
+
 }

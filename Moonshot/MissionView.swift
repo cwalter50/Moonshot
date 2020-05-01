@@ -11,6 +11,9 @@ import SwiftUI
 
 
 struct MissionView: View {
+    
+    let missions: [Mission] = Bundle.main.decode("missions.json")
+    
     let mission: Mission
     let astronauts: [CrewMember]
     
@@ -44,11 +47,15 @@ struct MissionView: View {
                         .scaledToFit()
                         .frame(maxWidth: geometry.size.width * 0.7)
                         .padding(.top)
+                    Text(self.mission.formattedLaunchDate)
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(Color.blue)
 
                     Text(self.mission.description)
                         .padding()
                     ForEach(self.astronauts, id: \.role) { crewMember in
-                        NavigationLink(destination: AstronautView(astronaut: crewMember.astronaut)) {
+                        NavigationLink(destination: AstronautView(astronaut: crewMember.astronaut, missions: self.missions)) {
                             HStack {
                                 Image(crewMember.astronaut.id)
                                     .resizable()
